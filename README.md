@@ -8,10 +8,8 @@ An offline-only, high-performance Flutter poetry and lyrics editor designed for 
 
 * 📏 **Real-Time Syllable Counting**
   * Accurately counts Amharic ሳድስ (6th order) syllables and English lexical vowel clusters.
-  * Custom `_PillPainter` queries `RenderEditable.getLocalRectForCaret` for optical line alignment without duplicating text measurement.
-  * Continuous identical characters (e.g. `ኢኢኢኢኢ` or `ችችችችች`) and initial consecutive Sades clusters merge into single syllable counts.
 
-* 🎨 **Dynamic Google Material You Color Themes**
+* 🎨 **Dynamic Color Themes**
   * 7 customizable accent themes: **Red, Yellow, Green, Blue, Purple, Orange, Teal**.
   * Dynamic background and surface tinting with custom dim pill color palettes.
 
@@ -19,10 +17,6 @@ An offline-only, high-performance Flutter poetry and lyrics editor designed for 
   * Full CRUD operations, title/content search, and tag filtering.
   * Soft-delete trash with 30-day automatic purge and instant restoration.
   * Full JSON backup and restore (merge/replace).
-
-* ⚡ **Debounced Autosave & Live Status**
-  * Smooth 800ms background autosave with live status indicator (`ተቀምጧል` / `Saved`).
-  * Safety guards prevent duplicate saves on simple cursor or caret navigation.
 
 * 📄 **Export & Sharing Options**
   * Export poems directly to **TXT**, formatted **PDF**, or copy to clipboard.
