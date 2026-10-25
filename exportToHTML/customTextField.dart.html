@@ -1,0 +1,400 @@
+<html>
+<head>
+<title>customTextField.dart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #7a7e85;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #bcbec4;}
+.s4 { color: #cf8e6d;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+customTextField.dart</font>
+</center></td></tr></table>
+<pre><span class="s0">// import 'package:flutter/material.dart';</span>
+<span class="s0">// import 'package:flutter/rendering.dart';</span>
+<span class="s0">//</span>
+<span class="s0">// class customTextField extends StatefulWidget {</span>
+<span class="s0">//   const customTextField({super.key});</span>
+<span class="s0">//</span>
+<span class="s0">//   @override</span>
+<span class="s0">//   State&lt;customTextField&gt; createState() =&gt; _customTextFieldState();</span>
+<span class="s0">// }</span>
+<span class="s0">//</span>
+<span class="s0">// class _customTextFieldState extends State&lt;customTextField&gt; {</span>
+<span class="s0">//   final TextEditingController _textController = TextEditingController();</span>
+<span class="s0">//   final ScrollController _scrollController1 = ScrollController();</span>
+<span class="s0">//   final ScrollController _scrollController2 = ScrollController();</span>
+<span class="s0">//   int _lineCount = 1;</span>
+<span class="s0">//   int _letterCount=0;</span>
+<span class="s0">//   @override</span>
+<span class="s0">//   void initState() {</span>
+<span class="s0">//     super.initState();</span>
+<span class="s0">//     _updateLineCounter();</span>
+<span class="s0">//     _textController.addListener(_updateLineCounter);</span>
+<span class="s0">//     _scrollController1.addListener(controller1Listener);</span>
+<span class="s0">//     _scrollController2.addListener(controller2Listener);</span>
+<span class="s0">//   }</span>
+<span class="s0">//   void controller1Listener() {</span>
+<span class="s0">//     if (_scrollController1.offset != _scrollController2.offset) {</span>
+<span class="s0">//       setState(() {</span>
+<span class="s0">//         _scrollController2.jumpTo(_scrollController1.offset);</span>
+<span class="s0">//       });</span>
+<span class="s0">//     }</span>
+<span class="s0">//   }</span>
+<span class="s0">//   void controller2Listener() {</span>
+<span class="s0">//     if (_scrollController1.offset != _scrollController2.offset) {</span>
+<span class="s0">//       setState(() {</span>
+<span class="s0">//         _scrollController1.jumpTo(_scrollController2.offset);</span>
+<span class="s0">//       });</span>
+<span class="s0">//     }</span>
+<span class="s0">//   }</span>
+<span class="s0">//</span>
+<span class="s0">//   @override</span>
+<span class="s0">//   void dispose() {</span>
+<span class="s0">//     _textController.removeListener(_updateLineCounter);</span>
+<span class="s0">//     _textController.dispose();</span>
+<span class="s0">//     _scrollController1.dispose();</span>
+<span class="s0">//     _scrollController2.dispose();</span>
+<span class="s0">//     super.dispose();</span>
+<span class="s0">//   }</span>
+<span class="s0">//</span>
+<span class="s0">//   void _updateLineCounter() {</span>
+<span class="s0">//     final letters=_textController.text.length;</span>
+<span class="s0">//     final lines = _textController.text.split('\n').length;</span>
+<span class="s0">//     if (lines != _lineCount) {</span>
+<span class="s0">//       setState(() {</span>
+<span class="s0">//         _lineCount = lines;</span>
+<span class="s0">//       });</span>
+<span class="s0">//     }</span>
+<span class="s0">//     if (letters !=_letterCount) {</span>
+<span class="s0">//       setState(() {</span>
+<span class="s0">//         _letterCount = letters;</span>
+<span class="s0">//       });</span>
+<span class="s0">//     }</span>
+<span class="s0">//   }</span>
+<span class="s0">//</span>
+<span class="s0">//   @override</span>
+<span class="s0">//   Widget build(BuildContext context) {</span>
+<span class="s0">//     const fontsize = 16.0;</span>
+<span class="s0">//     const fontfamily = 'monospace';</span>
+<span class="s0">//</span>
+<span class="s0">//     return Container(</span>
+<span class="s0">//       height: 300,</span>
+<span class="s0">//       width: 300,</span>
+<span class="s0">//       decoration: BoxDecoration(</span>
+<span class="s0">//         borderRadius: BorderRadius.only(topRight: Radius.circular(20),</span>
+<span class="s0">//         bottomRight: Radius.circular(20)),</span>
+<span class="s0">//         color: Colors.grey.shade500,</span>
+<span class="s0">//       ),</span>
+<span class="s0">//       child: Padding(</span>
+<span class="s0">//         padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),</span>
+<span class="s0">//         child: Row(</span>
+<span class="s0">//           crossAxisAlignment: CrossAxisAlignment.start,</span>
+<span class="s0">//           children: [</span>
+<span class="s0">//             Container(</span>
+<span class="s0">//               width: 50,</span>
+<span class="s0">//               padding: EdgeInsets.symmetric(vertical: 10),</span>
+<span class="s0">//               decoration: BoxDecoration(</span>
+<span class="s0">//                 borderRadius: BorderRadius.circular(10),</span>
+<span class="s0">//                 color: Colors.grey.shade400,</span>
+<span class="s0">//               ),</span>
+<span class="s0">//               child: ListView.builder(</span>
+<span class="s0">//                 controller: _scrollController1,</span>
+<span class="s0">//                 physics: const ClampingScrollPhysics(),</span>
+<span class="s0">//                 itemCount: _lineCount,</span>
+<span class="s0">//                 scrollCacheExtent: ScrollCacheExtent.viewport(0.5),</span>
+<span class="s0">//</span>
+<span class="s0">//                 itemBuilder: (context, index) {</span>
+<span class="s0">//                   return Container(</span>
+<span class="s0">//                     alignment: Alignment.centerRight,</span>
+<span class="s0">//                     padding: EdgeInsets.only(right: 1),</span>
+<span class="s0">//                     height: (fontsize * 1.5),</span>
+<span class="s0">//                     child: Text(</span>
+<span class="s0">//                       '${index+1}',</span>
+<span class="s0">//                       style: TextStyle(</span>
+<span class="s0">//                         fontSize: fontsize,</span>
+<span class="s0">//                         color: Colors.black,</span>
+<span class="s0">//                         fontFamily: fontfamily,</span>
+<span class="s0">//                       ),</span>
+<span class="s0">//                     ),</span>
+<span class="s0">//                   );</span>
+<span class="s0">//                 },</span>
+<span class="s0">//               ),</span>
+<span class="s0">//             ),</span>
+<span class="s0">//             Expanded(</span>
+<span class="s0">//               child: TextField(</span>
+<span class="s0">//                 controller: _textController,</span>
+<span class="s0">//                 scrollController: _scrollController2,</span>
+<span class="s0">//                 maxLines: null,</span>
+<span class="s0">//                 style: TextStyle(</span>
+<span class="s0">//                   fontSize: fontsize,</span>
+<span class="s0">//                   fontFamily: fontfamily,</span>
+<span class="s0">//                   color: Colors.grey.shade50,</span>
+<span class="s0">//                 ),</span>
+<span class="s0">//                 decoration: const InputDecoration(</span>
+<span class="s0">//                   border: InputBorder.none,</span>
+<span class="s0">//                   contentPadding: EdgeInsets.symmetric(</span>
+<span class="s0">//                     vertical: 11,</span>
+<span class="s0">//                     horizontal: 5</span>
+<span class="s0">//                   )</span>
+<span class="s0">//                 ),</span>
+<span class="s0">//               ),</span>
+<span class="s0">//             ),</span>
+<span class="s0">//           ],</span>
+<span class="s0">//         ),</span>
+<span class="s0">//       ),</span>
+<span class="s0">//     );</span>
+<span class="s0">//   }</span>
+<span class="s0">// }</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="s1">import </span><span class="s2">'package:flutter/material.dart'</span><span class="s3">;</span>
+<span class="s1">import </span><span class="s2">'package:flutter/rendering.dart'</span><span class="s3">;</span>
+
+<span class="s4">class </span><span class="s1">customTextField </span><span class="s4">extends </span><span class="s1">StatefulWidget </span><span class="s3">{</span>
+  <span class="s4">const </span><span class="s1">customTextField</span><span class="s3">({</span><span class="s4">super</span><span class="s3">.</span><span class="s1">key</span><span class="s3">});</span>
+
+  <span class="s1">@override</span>
+  <span class="s1">State</span><span class="s3">&lt;</span><span class="s1">customTextField</span><span class="s3">&gt; </span><span class="s1">createState</span><span class="s3">() =&gt; </span><span class="s1">_customTextFieldState</span><span class="s3">();</span>
+<span class="s3">}</span>
+
+<span class="s4">class </span><span class="s1">_customTextFieldState </span><span class="s4">extends </span><span class="s1">State</span><span class="s3">&lt;</span><span class="s1">customTextField</span><span class="s3">&gt; {</span>
+  <span class="s4">final </span><span class="s1">TextEditingController _textController </span><span class="s3">= </span><span class="s1">TextEditingController</span><span class="s3">();</span>
+  <span class="s4">final </span><span class="s1">ScrollController _scrollController1 </span><span class="s3">= </span><span class="s1">ScrollController</span><span class="s3">();</span>
+  <span class="s4">final </span><span class="s1">ScrollController _scrollController2 </span><span class="s3">= </span><span class="s1">ScrollController</span><span class="s3">();</span>
+  <span class="s1">List </span><span class="s3">&lt;</span><span class="s1">String</span><span class="s3">&gt; </span><span class="s1">_lineletterslist</span><span class="s3">=[];</span>
+  <span class="s1">@override</span>
+  <span class="s4">void </span><span class="s1">initState</span><span class="s3">() {</span>
+    <span class="s4">super</span><span class="s3">.</span><span class="s1">initState</span><span class="s3">();</span>
+    <span class="s1">_updateLineCounter</span><span class="s3">();</span>
+    <span class="s1">_textController</span><span class="s3">.</span><span class="s1">addListener</span><span class="s3">(</span><span class="s1">_updateLineCounter</span><span class="s3">);</span>
+    <span class="s1">_scrollController1</span><span class="s3">.</span><span class="s1">addListener</span><span class="s3">(</span><span class="s1">controller1Listener</span><span class="s3">);</span>
+    <span class="s1">_scrollController2</span><span class="s3">.</span><span class="s1">addListener</span><span class="s3">(</span><span class="s1">controller2Listener</span><span class="s3">);</span>
+  <span class="s3">}</span>
+  <span class="s4">void </span><span class="s1">controller1Listener</span><span class="s3">() {</span>
+    <span class="s4">if </span><span class="s3">(</span><span class="s1">_scrollController1</span><span class="s3">.</span><span class="s1">offset </span><span class="s3">!= </span><span class="s1">_scrollController2</span><span class="s3">.</span><span class="s1">offset</span><span class="s3">) {</span>
+      <span class="s1">setState</span><span class="s3">(() {</span>
+        <span class="s1">_scrollController2</span><span class="s3">.</span><span class="s1">jumpTo</span><span class="s3">(</span><span class="s1">_scrollController1</span><span class="s3">.</span><span class="s1">offset</span><span class="s3">);</span>
+      <span class="s3">});</span>
+    <span class="s3">}</span>
+  <span class="s3">}</span>
+  <span class="s4">void </span><span class="s1">controller2Listener</span><span class="s3">() {</span>
+    <span class="s4">if </span><span class="s3">(</span><span class="s1">_scrollController1</span><span class="s3">.</span><span class="s1">offset </span><span class="s3">!= </span><span class="s1">_scrollController2</span><span class="s3">.</span><span class="s1">offset</span><span class="s3">) {</span>
+      <span class="s1">setState</span><span class="s3">(() {</span>
+        <span class="s1">_scrollController1</span><span class="s3">.</span><span class="s1">jumpTo</span><span class="s3">(</span><span class="s1">_scrollController2</span><span class="s3">.</span><span class="s1">offset</span><span class="s3">);</span>
+      <span class="s3">});</span>
+    <span class="s3">}</span>
+  <span class="s3">}</span>
+
+  <span class="s1">@override</span>
+  <span class="s4">void </span><span class="s1">dispose</span><span class="s3">() {</span>
+    <span class="s1">_textController</span><span class="s3">.</span><span class="s1">removeListener</span><span class="s3">(</span><span class="s1">_updateLineCounter</span><span class="s3">);</span>
+    <span class="s1">_textController</span><span class="s3">.</span><span class="s1">dispose</span><span class="s3">();</span>
+    <span class="s1">_scrollController1</span><span class="s3">.</span><span class="s1">dispose</span><span class="s3">();</span>
+    <span class="s1">_scrollController2</span><span class="s3">.</span><span class="s1">dispose</span><span class="s3">();</span>
+    <span class="s4">super</span><span class="s3">.</span><span class="s1">dispose</span><span class="s3">();</span>
+  <span class="s3">}</span>
+
+  <span class="s4">void </span><span class="s1">_updateLineCounter</span><span class="s3">() {</span>
+    <span class="s4">final </span><span class="s1">lineletter </span><span class="s3">= </span><span class="s1">_textController</span><span class="s3">.</span><span class="s1">text</span><span class="s3">.</span><span class="s1">split</span><span class="s3">(</span><span class="s2">'\n'</span><span class="s3">);</span>
+    <span class="s4">if </span><span class="s3">(</span><span class="s1">lineletter </span><span class="s3">!= </span><span class="s1">_lineletterslist</span><span class="s3">) {</span>
+      <span class="s1">setState</span><span class="s3">(() {</span>
+        <span class="s1">_lineletterslist </span><span class="s3">= </span><span class="s1">lineletter</span><span class="s3">;</span>
+      <span class="s3">});</span>
+    <span class="s3">}</span>
+  <span class="s3">}</span>
+  <span class="s0">// old algorithm to count vowels</span>
+  <span class="s0">// int _countLexicalVowels(String text) {</span>
+  <span class="s0">//   int count = 0;</span>
+  <span class="s0">//   final amharicRange = RegExp(r'[\u1200-\u137F]');</span>
+  <span class="s0">//   String b = text.replaceAll(RegExp('[^aeiouyAEIOUY]'), '');</span>
+  <span class="s0">//   for (int i = 0; i &lt; b.length; i++) {</span>
+  <span class="s0">//     String char = b[i].toLowerCase();</span>
+  <span class="s0">//      if (i&lt;=0){</span>
+  <span class="s0">//        count++;</span>
+  <span class="s0">//      }else{</span>
+  <span class="s0">//        if(b[i]==b[i-1]){</span>
+  <span class="s0">//          continue;</span>
+  <span class="s0">//        }else{</span>
+  <span class="s0">//          count++;</span>
+  <span class="s0">//        }</span>
+  <span class="s0">//      }</span>
+  <span class="s0">//   }</span>
+  <span class="s0">//   return count;</span>
+  <span class="s0">// }</span>
+  <span class="s1">int _countLexicalVowels</span><span class="s3">(</span><span class="s1">String text</span><span class="s3">) {</span>
+    <span class="s1">int count </span><span class="s3">= </span><span class="s5">0</span><span class="s3">;</span>
+    <span class="s4">if</span><span class="s3">(</span><span class="s1">text</span><span class="s3">.</span><span class="s1">isEmpty</span><span class="s3">) </span><span class="s4">return </span><span class="s5">0</span><span class="s3">;</span>
+    <span class="s4">final </span><span class="s1">amharicRange </span><span class="s3">= </span><span class="s1">RegExp</span><span class="s3">(</span><span class="s2">r'[\u1200-\u137F]'</span><span class="s3">);</span>
+    <span class="s4">if</span><span class="s3">(</span><span class="s1">amharicRange</span><span class="s3">.</span><span class="s1">hasMatch</span><span class="s3">(</span><span class="s1">text</span><span class="s3">)){</span>
+      <span class="s1">String cleanLine </span><span class="s3">= </span><span class="s1">text</span><span class="s3">.</span><span class="s1">replaceAll</span><span class="s3">(</span><span class="s1">RegExp</span><span class="s3">(</span><span class="s2">r'[\u1360-\u137F\s]+'</span><span class="s3">), </span><span class="s2">' '</span><span class="s3">).</span><span class="s1">trim</span><span class="s3">();</span>
+      <span class="s4">if </span><span class="s3">(</span><span class="s1">cleanLine</span><span class="s3">.</span><span class="s1">isEmpty</span><span class="s3">) </span><span class="s4">return </span><span class="s5">0</span><span class="s3">;</span>
+
+      <span class="s0">// Split into individual words to safely apply position-based Sades rules</span>
+      <span class="s1">List</span><span class="s3">&lt;</span><span class="s1">String</span><span class="s3">&gt; </span><span class="s1">words </span><span class="s3">= </span><span class="s1">cleanLine</span><span class="s3">.</span><span class="s1">split</span><span class="s3">(</span><span class="s2">' '</span><span class="s3">);</span>
+      <span class="s1">int totalSyllables </span><span class="s3">= </span><span class="s5">0</span><span class="s3">;</span>
+
+      <span class="s0">// Define all 6th order (ሳድስ) characters in Unicode</span>
+      <span class="s4">final </span><span class="s1">sadesSet </span><span class="s3">= {</span>
+        <span class="s2">'ህ'</span><span class="s3">, </span><span class="s2">'ል'</span><span class="s3">, </span><span class="s2">'ሐ'</span><span class="s3">, </span><span class="s2">'ም'</span><span class="s3">, </span><span class="s2">'ሥ'</span><span class="s3">, </span><span class="s2">'ር'</span><span class="s3">, </span><span class="s2">'ስ'</span><span class="s3">, </span><span class="s2">'ሸ'</span><span class="s3">, </span><span class="s2">'ቀ'</span><span class="s3">, </span><span class="s2">'ብ'</span><span class="s3">, </span><span class="s2">'ት'</span><span class="s3">, </span><span class="s2">'ች'</span><span class="s3">, </span><span class="s2">'ን'</span><span class="s3">, </span><span class="s2">'ኝ'</span><span class="s3">,</span><span class="s2">'ዕ'</span><span class="s3">,</span>
+        <span class="s2">'እ'</span><span class="s3">, </span><span class="s2">'ክ'</span><span class="s3">, </span><span class="s2">'ቭ'</span><span class="s3">, </span><span class="s2">'ዝ'</span><span class="s3">, </span><span class="s2">'ዥ'</span><span class="s3">, </span><span class="s2">'ይ'</span><span class="s3">, </span><span class="s2">'ድ'</span><span class="s3">, </span><span class="s2">'ጅ'</span><span class="s3">, </span><span class="s2">'ግ'</span><span class="s3">, </span><span class="s2">'ጥ'</span><span class="s3">, </span><span class="s2">'ጭ'</span><span class="s3">, </span><span class="s2">'ጵ'</span><span class="s3">, </span><span class="s2">'ጽ'</span><span class="s3">, </span><span class="s2">'ፅ'</span><span class="s3">, </span><span class="s2">'ፍ'</span><span class="s3">, </span><span class="s2">'ፕ'</span>
+      <span class="s3">};</span>
+
+      <span class="s4">for </span><span class="s3">(</span><span class="s4">var </span><span class="s1">word </span><span class="s4">in </span><span class="s1">words</span><span class="s3">) {</span>
+        <span class="s4">if </span><span class="s3">(</span><span class="s1">word</span><span class="s3">.</span><span class="s1">isEmpty</span><span class="s3">) </span><span class="s4">continue</span><span class="s3">;</span>
+
+        <span class="s1">int wordSyllables </span><span class="s3">= </span><span class="s5">0</span><span class="s3">;</span>
+
+        <span class="s4">for </span><span class="s3">(</span><span class="s1">int i </span><span class="s3">= </span><span class="s5">0</span><span class="s3">; </span><span class="s1">i </span><span class="s3">&lt; </span><span class="s1">word</span><span class="s3">.</span><span class="s1">length</span><span class="s3">; </span><span class="s1">i</span><span class="s3">++) {</span>
+          <span class="s1">String char </span><span class="s3">= </span><span class="s1">word</span><span class="s3">[</span><span class="s1">i</span><span class="s3">];</span>
+
+          <span class="s4">if </span><span class="s3">(</span><span class="s1">sadesSet</span><span class="s3">.</span><span class="s1">contains</span><span class="s3">(</span><span class="s1">char</span><span class="s3">)) {</span>
+            <span class="s0">// Rule 3: Sades at the very start of a word counts as 1</span>
+            <span class="s4">if </span><span class="s3">(</span><span class="s1">i </span><span class="s3">== </span><span class="s5">0</span><span class="s3">) {</span>
+              <span class="s1">wordSyllables</span><span class="s3">++;</span>
+            <span class="s3">}</span>
+            <span class="s0">// Rule 2: Double sadeses (two consecutive sades characters) count as 1</span>
+            <span class="s4">else if </span><span class="s3">(</span><span class="s1">sadesSet</span><span class="s3">.</span><span class="s1">contains</span><span class="s3">(</span><span class="s1">word</span><span class="s3">[</span><span class="s1">i </span><span class="s3">- </span><span class="s5">1</span><span class="s3">])) {</span>
+              <span class="s0">// If the previous character was also a Sades, it combines into 1 syllable.</span>
+              <span class="s0">// We already didn't count the previous inside-Sades (Rule 1), so we add 1 now.</span>
+              <span class="s1">wordSyllables</span><span class="s3">++;</span>
+            <span class="s3">}</span>
+            <span class="s0">// Rule 1: Sades inside another letter (middle or end of word) doesn't count</span>
+            <span class="s4">else </span><span class="s3">{</span>
+              <span class="s0">// Do nothing (counts as 0)</span>
+            <span class="s3">}</span>
+          <span class="s3">} </span><span class="s4">else </span><span class="s3">{</span>
+            <span class="s0">// Rule 4: Standalone vowels (አ, ኡ, ኢ, etc.) and all other standard 1st-7th orders count as 1</span>
+            <span class="s1">wordSyllables</span><span class="s3">++;</span>
+          <span class="s3">}</span>
+        <span class="s3">}</span>
+
+        <span class="s1">totalSyllables </span><span class="s3">+= </span><span class="s1">wordSyllables</span><span class="s3">;</span>
+      <span class="s3">}</span>
+
+      <span class="s4">return </span><span class="s1">totalSyllables</span><span class="s3">;</span>
+    <span class="s3">}</span>
+
+    <span class="s4">return </span><span class="s1">text</span><span class="s3">.</span><span class="s1">toLowerCase</span><span class="s3">().</span><span class="s1">replaceAll</span><span class="s3">(</span><span class="s1">RegExp</span><span class="s3">(</span><span class="s2">r'[^a-z\s]'</span><span class="s3">), </span><span class="s2">''</span><span class="s3">).</span><span class="s1">split</span><span class="s3">(</span><span class="s1">RegExp</span><span class="s3">(</span><span class="s2">r'\s+'</span><span class="s3">)).</span><span class="s1">fold</span><span class="s3">(</span><span class="s5">0</span><span class="s3">, (</span><span class="s1">sum</span><span class="s3">, </span><span class="s1">w</span><span class="s3">) {</span>
+      <span class="s4">if </span><span class="s3">(</span><span class="s1">w</span><span class="s3">.</span><span class="s1">isEmpty</span><span class="s3">) </span><span class="s4">return </span><span class="s1">sum</span><span class="s3">;</span>
+      <span class="s0">// 1. Base count using vowel clusters</span>
+      <span class="s1">int c </span><span class="s3">= </span><span class="s1">RegExp</span><span class="s3">(</span><span class="s2">r'[aeiouy]+'</span><span class="s3">).</span><span class="s1">allMatches</span><span class="s3">(</span><span class="s1">w</span><span class="s3">).</span><span class="s1">length</span><span class="s3">;</span>
+      <span class="s0">// 2. Adjust for trailing silent 'e' (but keep for consonant + 'le' like candle)</span>
+      <span class="s4">if </span><span class="s3">(</span><span class="s1">w</span><span class="s3">.</span><span class="s1">endsWith</span><span class="s3">(</span><span class="s2">'e'</span><span class="s3">) &amp;&amp; !(</span><span class="s1">w</span><span class="s3">.</span><span class="s1">endsWith</span><span class="s3">(</span><span class="s2">'le'</span><span class="s3">) &amp;&amp; </span><span class="s1">w</span><span class="s3">.</span><span class="s1">length </span><span class="s3">&gt; </span><span class="s5">2 </span><span class="s3">&amp;&amp; !</span><span class="s2">'aeiouy'</span><span class="s3">.</span><span class="s1">contains</span><span class="s3">(</span><span class="s1">w</span><span class="s3">[</span><span class="s1">w</span><span class="s3">.</span><span class="s1">length </span><span class="s3">- </span><span class="s5">3</span><span class="s3">]))) </span><span class="s1">c</span><span class="s3">--;</span>
+      <span class="s0">// 3. Precise adjustments for common poetic words (di-et, po-et, rhi-no)</span>
+      <span class="s4">if </span><span class="s3">(</span><span class="s1">RegExp</span><span class="s3">(</span><span class="s2">r'(?:[aeiou]ing|diet|poet|tri[au]|scien|dual|ide|flu|[^g]et)$'</span><span class="s3">).</span><span class="s1">hasMatch</span><span class="s3">(</span><span class="s1">w</span><span class="s3">)) </span><span class="s1">c</span><span class="s3">++;</span>
+      <span class="s4">return </span><span class="s1">sum </span><span class="s3">+ (</span><span class="s1">c </span><span class="s3">&lt;= </span><span class="s5">0 </span><span class="s3">? </span><span class="s5">1 </span><span class="s3">: </span><span class="s1">c</span><span class="s3">);</span>
+    <span class="s3">});</span>
+  <span class="s3">}</span>
+  <span class="s1">@override</span>
+  <span class="s1">Widget build</span><span class="s3">(</span><span class="s1">BuildContext context</span><span class="s3">) {</span>
+    <span class="s4">const </span><span class="s1">fontsize </span><span class="s3">= </span><span class="s5">16.0</span><span class="s3">;</span>
+    <span class="s4">const </span><span class="s1">fontfamily </span><span class="s3">= </span><span class="s2">'monospace'</span><span class="s3">;</span>
+
+    <span class="s4">return </span><span class="s1">Expanded</span><span class="s3">(</span>
+      <span class="s1">child</span><span class="s3">: </span><span class="s1">Padding</span><span class="s3">(</span>
+        <span class="s1">padding</span><span class="s3">: </span><span class="s4">const </span><span class="s1">EdgeInsets</span><span class="s3">.</span><span class="s1">all</span><span class="s3">(</span><span class="s5">8.0</span><span class="s3">),</span>
+        <span class="s1">child</span><span class="s3">: </span><span class="s1">Container</span><span class="s3">(</span>
+          <span class="s1">decoration</span><span class="s3">: </span><span class="s1">BoxDecoration</span><span class="s3">(</span>
+            <span class="s1">borderRadius</span><span class="s3">: </span><span class="s1">BorderRadius</span><span class="s3">.</span><span class="s1">circular</span><span class="s3">(</span><span class="s5">20</span><span class="s3">),</span>
+            <span class="s1">color</span><span class="s3">: </span><span class="s1">Colors</span><span class="s3">.</span><span class="s1">white70</span><span class="s3">,</span>
+          <span class="s3">),</span>
+          <span class="s1">child</span><span class="s3">: </span><span class="s1">Padding</span><span class="s3">(</span>
+            <span class="s1">padding</span><span class="s3">: </span><span class="s4">const </span><span class="s1">EdgeInsets</span><span class="s3">.</span><span class="s1">symmetric</span><span class="s3">(</span><span class="s1">vertical</span><span class="s3">: </span><span class="s5">10</span><span class="s3">,</span><span class="s1">horizontal</span><span class="s3">: </span><span class="s5">10</span><span class="s3">),</span>
+            <span class="s1">child</span><span class="s3">: </span><span class="s1">Row</span><span class="s3">(</span>
+              <span class="s1">crossAxisAlignment</span><span class="s3">: </span><span class="s1">CrossAxisAlignment</span><span class="s3">.</span><span class="s1">start</span><span class="s3">,</span>
+              <span class="s1">children</span><span class="s3">: [</span>
+                <span class="s1">Container</span><span class="s3">(</span>
+                  <span class="s1">width</span><span class="s3">: </span><span class="s5">50</span><span class="s3">,</span>
+                  <span class="s1">padding</span><span class="s3">: </span><span class="s1">EdgeInsets</span><span class="s3">.</span><span class="s1">symmetric</span><span class="s3">(</span><span class="s1">vertical</span><span class="s3">: </span><span class="s5">10</span><span class="s3">),</span>
+                  <span class="s1">decoration</span><span class="s3">: </span><span class="s1">BoxDecoration</span><span class="s3">(</span>
+                    <span class="s1">borderRadius</span><span class="s3">: </span><span class="s1">BorderRadius</span><span class="s3">.</span><span class="s1">circular</span><span class="s3">(</span><span class="s5">10</span><span class="s3">),</span>
+                    <span class="s1">color</span><span class="s3">: </span><span class="s1">Colors</span><span class="s3">.</span><span class="s1">grey</span><span class="s3">.</span><span class="s1">shade400</span><span class="s3">,</span>
+                  <span class="s3">),</span>
+                  <span class="s1">child</span><span class="s3">: </span><span class="s1">ScrollConfiguration</span><span class="s3">(</span>
+                    <span class="s1">behavior</span><span class="s3">: </span><span class="s1">ScrollConfiguration</span><span class="s3">.</span><span class="s1">of</span><span class="s3">(</span><span class="s1">context</span><span class="s3">).</span><span class="s1">copyWith</span><span class="s3">(</span>
+                      <span class="s1">scrollbars</span><span class="s3">: </span><span class="s4">false</span>
+                    <span class="s3">),</span>
+                    <span class="s1">child</span><span class="s3">: </span><span class="s1">Padding</span><span class="s3">(</span>
+                      <span class="s1">padding</span><span class="s3">: </span><span class="s4">const </span><span class="s1">EdgeInsets</span><span class="s3">.</span><span class="s1">only</span><span class="s3">(</span><span class="s1">right</span><span class="s3">: </span><span class="s5">5</span><span class="s3">),</span>
+                      <span class="s1">child</span><span class="s3">: </span><span class="s1">ListView</span><span class="s3">.</span><span class="s1">builder</span><span class="s3">(</span>
+                        <span class="s1">controller</span><span class="s3">: </span><span class="s1">_scrollController1</span><span class="s3">,</span>
+                        <span class="s1">physics</span><span class="s3">: </span><span class="s4">const </span><span class="s1">ClampingScrollPhysics</span><span class="s3">(),</span>
+                        <span class="s1">itemCount</span><span class="s3">: </span><span class="s1">_lineletterslist</span><span class="s3">.</span><span class="s1">length</span><span class="s3">,</span>
+                        <span class="s1">scrollCacheExtent</span><span class="s3">: </span><span class="s1">ScrollCacheExtent</span><span class="s3">.</span><span class="s1">viewport</span><span class="s3">(</span><span class="s5">0.5</span><span class="s3">),</span>
+                        <span class="s1">itemBuilder</span><span class="s3">: (</span><span class="s1">context</span><span class="s3">, </span><span class="s1">index</span><span class="s3">)</span>
+                        <span class="s3">{</span>
+                          <span class="s1">dynamic x</span><span class="s3">=</span><span class="s1">_countLexicalVowels</span><span class="s3">(</span><span class="s1">_lineletterslist</span><span class="s3">[</span><span class="s1">index</span><span class="s3">]);</span>
+                          <span class="s4">if</span><span class="s3">(</span><span class="s1">x</span><span class="s3">==</span><span class="s5">0</span><span class="s3">){</span>
+                            <span class="s1">x</span><span class="s3">=</span><span class="s2">''</span><span class="s3">;</span>
+                          <span class="s3">}</span>
+                          <span class="s4">return </span><span class="s1">Container</span><span class="s3">(</span>
+                            <span class="s1">alignment</span><span class="s3">: </span><span class="s1">Alignment</span><span class="s3">.</span><span class="s1">centerRight</span><span class="s3">,</span>
+                            <span class="s1">padding</span><span class="s3">: </span><span class="s1">EdgeInsets</span><span class="s3">.</span><span class="s1">only</span><span class="s3">(</span><span class="s1">right</span><span class="s3">: </span><span class="s5">1</span><span class="s3">),</span>
+                            <span class="s1">height</span><span class="s3">: (</span><span class="s1">fontsize </span><span class="s3">* </span><span class="s5">1.5</span><span class="s3">),</span>
+                            <span class="s1">child</span><span class="s3">: </span><span class="s1">Container</span><span class="s3">(</span>
+                              <span class="s1">child</span><span class="s3">: </span><span class="s1">Text</span><span class="s3">(</span>
+                                <span class="s2">'</span><span class="s3">$</span><span class="s1">x</span><span class="s2">'</span><span class="s3">,</span>
+                                <span class="s1">style</span><span class="s3">: </span><span class="s1">TextStyle</span><span class="s3">(</span>
+                                  <span class="s1">fontSize</span><span class="s3">: </span><span class="s1">fontsize</span><span class="s3">,</span>
+                                  <span class="s1">color</span><span class="s3">: </span><span class="s1">Colors</span><span class="s3">.</span><span class="s1">black</span><span class="s3">,</span>
+                                  <span class="s1">fontFamily</span><span class="s3">: </span><span class="s1">fontfamily</span><span class="s3">,</span>
+                                <span class="s3">),</span>
+                              <span class="s3">),</span>
+                            <span class="s3">),</span>
+                          <span class="s3">);</span>
+                        <span class="s3">},</span>
+                      <span class="s3">),</span>
+                    <span class="s3">),</span>
+                  <span class="s3">),</span>
+                <span class="s3">),</span>
+                <span class="s1">Expanded</span><span class="s3">(</span>
+                  <span class="s1">child</span><span class="s3">: </span><span class="s1">TextField</span><span class="s3">(</span>
+                    <span class="s1">controller</span><span class="s3">: </span><span class="s1">_textController</span><span class="s3">,</span>
+                    <span class="s1">scrollController</span><span class="s3">: </span><span class="s1">_scrollController2</span><span class="s3">,</span>
+                    <span class="s1">keyboardType</span><span class="s3">: </span><span class="s1">TextInputType</span><span class="s3">.</span><span class="s1">multiline</span><span class="s3">,</span>
+                    <span class="s1">scrollPhysics</span><span class="s3">: </span><span class="s4">const </span><span class="s1">ClampingScrollPhysics</span><span class="s3">(),</span>
+                    <span class="s1">maxLines</span><span class="s3">: </span><span class="s4">null</span><span class="s3">,</span>
+                    <span class="s1">style</span><span class="s3">: </span><span class="s1">TextStyle</span><span class="s3">(</span>
+                      <span class="s1">fontSize</span><span class="s3">: </span><span class="s1">fontsize</span><span class="s3">,</span>
+                      <span class="s1">fontFamily</span><span class="s3">: </span><span class="s1">fontfamily</span><span class="s3">,</span>
+                      <span class="s1">color</span><span class="s3">: </span><span class="s1">Colors</span><span class="s3">.</span><span class="s1">black</span><span class="s3">,</span>
+                    <span class="s3">),</span>
+                    <span class="s1">decoration</span><span class="s3">: </span><span class="s4">const </span><span class="s1">InputDecoration</span><span class="s3">(</span>
+                        <span class="s1">border</span><span class="s3">: </span><span class="s1">InputBorder</span><span class="s3">.</span><span class="s1">none</span><span class="s3">,</span>
+                        <span class="s1">contentPadding</span><span class="s3">: </span><span class="s1">EdgeInsets</span><span class="s3">.</span><span class="s1">symmetric</span><span class="s3">(</span>
+                            <span class="s1">vertical</span><span class="s3">: </span><span class="s5">11</span><span class="s3">,</span>
+                            <span class="s1">horizontal</span><span class="s3">: </span><span class="s5">5</span>
+                        <span class="s3">)</span>
+                    <span class="s3">),</span>
+                  <span class="s3">),</span>
+                <span class="s3">),</span>
+              <span class="s3">],</span>
+            <span class="s3">),</span>
+          <span class="s3">),</span>
+        <span class="s3">),</span>
+      <span class="s3">),</span>
+    <span class="s3">);</span>
+  <span class="s3">}</span>
+<span class="s3">}</span>
+</pre>
+</body>
+</html>
