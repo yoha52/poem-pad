@@ -151,6 +151,8 @@ class _TextEditorPageState extends State<TextEditorPage>
   }
 
   Future<void> _performSave() async {
+    _autosaveTimer?.cancel();
+
     final title = _titleController.text.trim();
     final content = _bodyController.text;
 
@@ -238,9 +240,13 @@ class _TextEditorPageState extends State<TextEditorPage>
         : _titleController.text.trim();
 
     return PopScope(
-      canPop: true,
-      onPopInvokedWithResult: (didPop, result) {
-        _performSave();
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        await _performSave();
+        if (context.mounted) {
+          Navigator.pop(context, _currentPoem);
+        }
       },
       child: CallbackShortcuts(
         bindings: {
@@ -250,9 +256,11 @@ class _TextEditorPageState extends State<TextEditorPage>
               SnackBar(content: Text(strings.save)),
             );
           },
-          const SingleActivator(LogicalKeyboardKey.escape): () {
-            _performSave();
-            Navigator.pop(context, _currentPoem);
+          const SingleActivator(LogicalKeyboardKey.escape): () async {
+            await _performSave();
+            if (context.mounted) {
+              Navigator.pop(context, _currentPoem);
+            }
           },
         },
         child: Focus(
@@ -268,9 +276,11 @@ class _TextEditorPageState extends State<TextEditorPage>
                   color: colors.label,
                   size: 20,
                 ),
-                onPressed: () {
-                  _performSave();
-                  Navigator.pop(context, _currentPoem);
+                onPressed: () async {
+                  await _performSave();
+                  if (context.mounted) {
+                    Navigator.pop(context, _currentPoem);
+                  }
                 },
               ),
               title: Column(

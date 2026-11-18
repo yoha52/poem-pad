@@ -44,8 +44,9 @@ class DatabaseHelper {
     return await databaseFactory.openDatabase(
       dbPath,
       options: OpenDatabaseOptions(
-        version: 1,
+        version: 2,
         onCreate: _onCreate,
+        onUpgrade: _onUpgrade,
       ),
     );
   }
@@ -67,5 +68,18 @@ class DatabaseHelper {
     await db.execute(
       'CREATE INDEX IF NOT EXISTS idx_poems_search ON poems(title, content, tags);',
     );
+    await db.execute('CREATE INDEX IF NOT EXISTS idx_poems_updated_at ON poems(updated_at);');
+    await db.execute('CREATE INDEX IF NOT EXISTS idx_poems_is_pinned ON poems(is_pinned);');
+    await db.execute('CREATE INDEX IF NOT EXISTS idx_poems_deleted_at ON poems(deleted_at);');
+    await db.execute('CREATE INDEX IF NOT EXISTS idx_poems_tags ON poems(tags);');
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('CREATE INDEX IF NOT EXISTS idx_poems_updated_at ON poems(updated_at);');
+      await db.execute('CREATE INDEX IF NOT EXISTS idx_poems_is_pinned ON poems(is_pinned);');
+      await db.execute('CREATE INDEX IF NOT EXISTS idx_poems_deleted_at ON poems(deleted_at);');
+      await db.execute('CREATE INDEX IF NOT EXISTS idx_poems_tags ON poems(tags);');
+    }
   }
 }

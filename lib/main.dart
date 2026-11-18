@@ -1,8 +1,9 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'database/database_helper.dart';
-import 'pages/home_page.dart';
+import 'pages/splash_page.dart';
 import 'repositories/poem_repository.dart';
 import 'services/settings_service.dart';
 import 'theme/design_tokens.dart';
@@ -17,7 +18,7 @@ void main() async {
 
   final repository = PoemRepository();
 
-  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
     await windowManager.ensureInitialized();
     await windowManager.setMinimumSize(const Size(393, 852));
 
@@ -81,7 +82,7 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.dark,
             ),
           ),
-          home: HomePage(
+          home: SplashPage(
             repository: repository,
             settingsService: settingsService,
           ),

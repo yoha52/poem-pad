@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../models/poem.dart';
+import '../widgets/app_logo.dart';
 import '../repositories/poem_repository.dart';
 import '../services/export_service.dart';
 import '../services/settings_service.dart';
@@ -33,9 +34,13 @@ class _HomePageState extends State<HomePage> {
 
   List<Poem> _poems = [];
   List<String> _allTags = [];
+  Map<String, List<Poem>> _sections = {};
   String? _selectedTag;
   bool _isLoading = true;
   String _searchQuery = '';
+  String _lastLoadedQuery = '';
+  String? _lastLoadedTag;
+  int _searchRequestId = 0;
   Timer? _debounceTimer;
 
   @override
@@ -56,36 +61,51 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _initData() async {
     await widget.repository.migrateFromSharedPreferencesIfNeeded();
-    await _loadPoems();
+    await _loadPoems(force: true);
   }
 
   void _onSearchChanged() {
     _debounceTimer?.cancel();
     _debounceTimer = Timer(const Duration(milliseconds: 250), () {
       if (mounted) {
-        setState(() {
-          _searchQuery = _searchController.text.trim();
-        });
-        _loadPoems();
+        final newQuery = _searchController.text.trim();
+        if (newQuery != _searchQuery) {
+          setState(() {
+            _searchQuery = newQuery;
+          });
+          _loadPoems();
+        }
       }
     });
   }
 
-  Future<void> _loadPoems() async {
+  Future<void> _loadPoems({bool force = false}) async {
+    final trimmedQuery = _searchQuery.trim();
+    if (!force && trimmedQuery == _lastLoadedQuery && _selectedTag == _lastLoadedTag && !_isLoading) {
+      return;
+    }
+    _lastLoadedQuery = trimmedQuery;
+    _lastLoadedTag = _selectedTag;
+
+    final currentRequestId = ++_searchRequestId;
+
     final poems = await widget.repository.getActivePoems(
-      query: _searchQuery,
+      query: trimmedQuery,
       selectedTag: _selectedTag,
       sortOption: widget.settingsService.defaultSort,
     );
     final tags = await widget.repository.getAllTags();
 
-    if (mounted) {
-      setState(() {
-        _poems = poems;
-        _allTags = tags;
-        _isLoading = false;
-      });
-    }
+    if (!mounted || currentRequestId != _searchRequestId) return;
+
+    final sections = _groupPoems(poems);
+
+    setState(() {
+      _poems = poems;
+      _allTags = tags;
+      _sections = sections;
+      _isLoading = false;
+    });
   }
 
   Future<void> _openEditor({Poem? poem}) async {
@@ -99,7 +119,7 @@ class _HomePageState extends State<HomePage> {
     );
 
     if (result != null) {
-      await _loadPoems();
+      await _loadPoems(force: true);
     }
   }
 
@@ -107,7 +127,7 @@ class _HomePageState extends State<HomePage> {
     final colors = context.colors;
     final strings = widget.settingsService.strings;
     await widget.repository.softDeletePoem(poem.id);
-    await _loadPoems();
+    await _loadPoems(force: true);
 
     if (mounted) {
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -120,7 +140,7 @@ class _HomePageState extends State<HomePage> {
             textColor: colors.accent,
             onPressed: () async {
               await widget.repository.restorePoem(poem.id);
-              await _loadPoems();
+              await _loadPoems(force: true);
             },
           ),
         ),
@@ -142,13 +162,13 @@ class _HomePageState extends State<HomePage> {
       tags: poem.tags,
     );
     await widget.repository.savePoem(duplicate);
-    await _loadPoems();
+    await _loadPoems(force: true);
   }
 
   Future<void> _togglePin(Poem poem) async {
     final updated = poem.copyWith(isPinned: !poem.isPinned, updatedAt: DateTime.now());
     await widget.repository.savePoem(updated);
-    await _loadPoems();
+    await _loadPoems(force: true);
   }
 
   Future<void> _sharePoem(Poem poem) async {
@@ -194,7 +214,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final strings = widget.settingsService.strings;
-    final sections = _groupPoems(_poems);
+    final sections = _sections;
 
     return AnimatedBuilder(
       animation: widget.settingsService,
@@ -221,14 +241,44 @@ class _HomePageState extends State<HomePage> {
                             SliverAppBar.large(
                               backgroundColor: colors.background,
                               surfaceTintColor: Colors.transparent,
-                              title: Text(
-                                strings.appTitle,
-                                style: TextStyle(
-                                  fontSize: 34,
-                                  fontWeight: FontWeight.bold,
-                                  color: colors.label,
-                                  letterSpacing: DesignTokens.ethioLetterSpacing,
-                                ),
+                              title: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  AppLogo(
+                                    color: colors.label,
+                                    height: 28,
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: ShaderMask(
+                                      shaderCallback: (bounds) {
+                                        const fadeWidth = 28.0;
+                                        final fadeStart = bounds.width <= fadeWidth ? 0.0 : 1.0 - (fadeWidth / bounds.width);
+                                        return LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          colors: const [Colors.white, Colors.white, Colors.transparent],
+                                          stops: [0.0, fadeStart, 1.0],
+                                        ).createShader(bounds);
+                                      },
+                                      blendMode: BlendMode.dstIn,
+                                      child: Text(
+                                        strings.appTitle,
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.clip,
+                                        style: TextStyle(
+                                          fontSize: 34,
+                                          fontWeight: FontWeight.bold,
+                                          color: colors.label,
+                                          height: 1.1,
+                                          letterSpacing: DesignTokens.ethioLetterSpacing,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               actions: [
                                 IconButton(
@@ -241,7 +291,7 @@ class _HomePageState extends State<HomePage> {
                                         builder: (_) => TrashPage(repository: widget.repository),
                                       ),
                                     );
-                                    _loadPoems();
+                                    _loadPoems(force: true);
                                   },
                                 ),
                                 IconButton(
@@ -257,7 +307,7 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                     );
-                                    _loadPoems();
+                                    _loadPoems(force: true);
                                   },
                                 ),
                               ],
@@ -307,7 +357,7 @@ class _HomePageState extends State<HomePage> {
                                               selected: _selectedTag == null,
                                               onSelected: (_) {
                                                 setState(() => _selectedTag = null);
-                                                _loadPoems();
+                                                _loadPoems(force: true);
                                               },
                                             ),
                                             const SizedBox(width: 8),
@@ -319,7 +369,7 @@ class _HomePageState extends State<HomePage> {
                                                   selected: _selectedTag == t,
                                                   onSelected: (sel) {
                                                     setState(() => _selectedTag = sel ? t : null);
-                                                    _loadPoems();
+                                                    _loadPoems(force: true);
                                                   },
                                                 ),
                                               ),

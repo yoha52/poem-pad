@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../constants/strings.dart';
 import '../repositories/poem_repository.dart';
 import '../services/export_service.dart';
@@ -23,6 +24,30 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   String _lastBackupDate = 'አልተደረገም';
+
+  // TODO: Supply real Privacy Policy URL
+  static const String _privacyPolicyUrl = 'https://example.com/privacy-policy';
+
+  // TODO: Supply real Terms of Service URL
+  static const String _termsOfServiceUrl = 'https://example.com/terms-of-service';
+
+  Future<void> _launchUrl(String urlString, AppStrings strings) async {
+    final uri = Uri.parse(urlString);
+    try {
+      final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!launched && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(strings.launchError)),
+        );
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(strings.launchError)),
+        );
+      }
+    }
+  }
 
   Future<void> _handleBackup() async {
     final jsonStr = await widget.repository.exportBackupJson();
@@ -455,6 +480,50 @@ class _SettingsPageState extends State<SettingsPage> {
                                         Text(strings.isAmharic ? 'ስሪት' : 'Version', style: TextStyle(fontSize: 16, color: colors.label)),
                                         Text('1.0.0', style: TextStyle(fontSize: 15, color: colors.meta)),
                                       ],
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () => _launchUrl(_privacyPolicyUrl, strings),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(strings.privacyPolicy, style: TextStyle(fontSize: 16, color: colors.label)),
+                                          Icon(CupertinoIcons.chevron_right, size: 16, color: colors.meta),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () => _launchUrl(_termsOfServiceUrl, strings),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(strings.termsOfService, style: TextStyle(fontSize: 16, color: colors.label)),
+                                          Icon(CupertinoIcons.chevron_right, size: 16, color: colors.meta),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      showLicensePage(
+                                        context: context,
+                                        applicationName: strings.appTitle,
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(strings.openSourceLicenses, style: TextStyle(fontSize: 16, color: colors.label)),
+                                          Icon(CupertinoIcons.chevron_right, size: 16, color: colors.meta),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],

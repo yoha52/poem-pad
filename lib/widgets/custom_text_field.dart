@@ -160,6 +160,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                                 lineHeight: _lineHeight,
                                 pillInset: _pillInset,
                                 colors: colors,
+                                strings: widget.strings,
                               ),
                             )
                           : const SizedBox.shrink(),
@@ -343,6 +344,7 @@ class _PillPainter extends CustomPainter {
     required this.lineHeight,
     required this.pillInset,
     required this.colors,
+    required this.strings,
   }) : super(repaint: repaint);
 
   final _PillLayoutCache cache;
@@ -355,6 +357,65 @@ class _PillPainter extends CustomPainter {
   final double lineHeight;
   final double pillInset;
   final AppColors colors;
+  final AppStrings strings;
+
+  @override
+  SemanticsBuilderCallback? get semanticsBuilder => _buildSemantics;
+
+  List<CustomPainterSemantics> _buildSemantics(Size size) {
+    if (size.width <= 0) return const [];
+
+    final RenderObject? gutterObject = gutterKey.currentContext?.findRenderObject();
+    final RenderObject? fieldObject = bodyFieldKey.currentContext?.findRenderObject();
+    if (gutterObject is! RenderBox || !gutterObject.attached) return const [];
+    if (fieldObject == null || !fieldObject.attached) return const [];
+
+    final RenderEditable? editable = cache.resolveEditable(fieldObject);
+    if (editable == null || !editable.hasSize) return const [];
+
+    final double lineBox = textScaler.scale(fontSize) * lineHeight;
+    if (lineBox <= 0) return const [];
+
+    cache.refresh(editable, bodyController.text, lineBox);
+
+    final double originDelta = editable.localToGlobal(Offset.zero).dy -
+        gutterObject.localToGlobal(Offset.zero).dy;
+    final double scroll = editable.offset.hasPixels ? editable.offset.pixels : 0.0;
+    final double base = originDelta - scroll;
+
+    final double pillHeight = lineBox - 2;
+    final double pillWidth = size.width - pillInset * 2;
+    if (pillWidth <= 0 || pillHeight <= 0) return const [];
+
+    final List<double> tops = cache.tops;
+    final List<int> counts = cache.counts;
+    final List<CustomPainterSemantics> semantics = [];
+
+    for (int i = 0; i < tops.length; i++) {
+      final double y = base + tops[i];
+      if (y > size.height) break;
+      if (y + lineBox < 0) continue;
+
+      final int count = counts[i];
+      final Rect rect = Rect.fromLTWH(pillInset, y + 1, pillWidth, pillHeight);
+      final lineNumber = i + 1;
+      final label = strings.isAmharic
+          ? 'መስመር $lineNumber: $count ስላብል'
+          : 'Line $lineNumber: $count syllables';
+
+      semantics.add(
+        CustomPainterSemantics(
+          rect: rect,
+          properties: SemanticsProperties(
+            label: label,
+            textDirection: TextDirection.ltr,
+          ),
+        ),
+      );
+    }
+
+    return semantics;
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -431,5 +492,12 @@ class _PillPainter extends CustomPainter {
         !identical(old.cache, cache) ||
         old.colors != colors ||
         old.bodyController != bodyController;
+  }
+
+  @override
+  bool shouldRebuildSemantics(_PillPainter old) {
+    return old.cache.counts != cache.counts ||
+        old.cache.tops != cache.tops ||
+        old.strings != strings;
   }
 }

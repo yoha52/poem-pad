@@ -29,6 +29,10 @@ class AppStrings {
   String get trashTitle => isAmharic ? 'የተሰረዙ ግጥሞች' : 'Trash';
   String get trashEmpty => isAmharic ? 'ምንም የተሰረዘ ግጥም የለም' : 'Trash is empty';
   String get settingsTitle => isAmharic ? 'ማስተካከያ' : 'Settings';
+  String get privacyPolicy => isAmharic ? 'የግል ሕግ' : 'Privacy Policy';
+  String get termsOfService => isAmharic ? 'የአገልግሎት ውሎች' : 'Terms of Service';
+  String get openSourceLicenses => isAmharic ? 'ክፍት ምንጭ ፈቃዶች' : 'Open-Source Licenses';
+  String get launchError => isAmharic ? 'ሊንኩን መክፈት አልተቻለም' : 'Could not launch URL';
 
   // Section Headers
   String get pinnedSection => isAmharic ? 'የተሰኩ' : 'Pinned';
