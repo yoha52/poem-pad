@@ -1,5 +1,7 @@
 # የግጥም መደብ (Poem Pad)
 
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Vercel-success?style=for-the-badge&logo=vercel)](https://poem-pad-liart.vercel.app)
+
 An offline-only, high-performance Flutter poetry and lyrics editor designed for Amharic and English writers on Android and Desktop platforms.
 
 ---
