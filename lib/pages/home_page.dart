@@ -89,23 +89,31 @@ class _HomePageState extends State<HomePage> {
 
     final currentRequestId = ++_searchRequestId;
 
-    final poems = await widget.repository.getActivePoems(
-      query: trimmedQuery,
-      selectedTag: _selectedTag,
-      sortOption: widget.settingsService.defaultSort,
-    );
-    final tags = await widget.repository.getAllTags();
+    try {
+      final poems = await widget.repository.getActivePoems(
+        query: trimmedQuery,
+        selectedTag: _selectedTag,
+        sortOption: widget.settingsService.defaultSort,
+      );
+      final tags = await widget.repository.getAllTags();
 
-    if (!mounted || currentRequestId != _searchRequestId) return;
+      if (!mounted || currentRequestId != _searchRequestId) return;
 
-    final sections = _groupPoems(poems);
+      final sections = _groupPoems(poems);
 
-    setState(() {
-      _poems = poems;
-      _allTags = tags;
-      _sections = sections;
-      _isLoading = false;
-    });
+      setState(() {
+        _poems = poems;
+        _allTags = tags;
+        _sections = sections;
+        _isLoading = false;
+      });
+    } catch (_) {
+      if (mounted && currentRequestId == _searchRequestId) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   Future<void> _openEditor({Poem? poem}) async {
