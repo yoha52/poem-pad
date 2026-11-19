@@ -483,19 +483,22 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-              floatingActionButton: FloatingActionButton.extended(
-                elevation: 4,
-                backgroundColor: colors.accent,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                onPressed: () => _openEditor(),
-                icon: const Icon(CupertinoIcons.add, size: 20),
-                label: Text(
-                  strings.newPoem,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    letterSpacing: DesignTokens.ethioLetterSpacing,
+              floatingActionButton: Padding(
+                padding: const EdgeInsets.only(bottom: 16.0, right: 16.0),
+                child: FloatingActionButton.extended(
+                  elevation: 4,
+                  backgroundColor: colors.accent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  onPressed: () => _openEditor(),
+                  icon: const Icon(CupertinoIcons.add, size: 20),
+                  label: Text(
+                    strings.newPoem,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      letterSpacing: DesignTokens.ethioLetterSpacing,
+                    ),
                   ),
                 ),
               ),
