@@ -236,6 +236,7 @@ class _HomePageState extends State<HomePage> {
             autofocus: true,
             child: Scaffold(
               backgroundColor: colors.background,
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
               body: _isLoading
                   ? Center(
                       child: CircularProgressIndicator(color: colors.accent),
@@ -484,7 +485,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
               floatingActionButton: Padding(
-                padding: const EdgeInsets.only(bottom: 16.0, right: 16.0),
+                padding: const EdgeInsets.only(bottom: 16.0),
                 child: FloatingActionButton.extended(
                   elevation: 4,
                   backgroundColor: colors.accent,
