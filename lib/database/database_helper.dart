@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'database_web_init.dart'
+    if (dart.library.html) 'database_web_init_web.dart';
 
 class DatabaseHelper {
   static DatabaseHelper? _instance;
@@ -15,7 +17,10 @@ class DatabaseHelper {
   }
 
   static void initFfi({TargetPlatform? overridePlatform}) {
-    if (kIsWeb) return;
+    if (kIsWeb) {
+      initWebDatabaseFactory();
+      return;
+    }
     final platform = overridePlatform ?? defaultTargetPlatform;
     if (platform == TargetPlatform.windows ||
         platform == TargetPlatform.linux ||

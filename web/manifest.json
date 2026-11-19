@@ -1,11 +1,11 @@
 {
-    "name": "untitled3",
-    "short_name": "untitled3",
+    "name": "የግጥም መደብ (Poem Pad)",
+    "short_name": "Poem Pad",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#121212",
+    "theme_color": "#121212",
+    "description": "የግጥም መደብ - Poem Pad application.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
